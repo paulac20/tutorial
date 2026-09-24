@@ -10,7 +10,6 @@ import java.util.List;
  *
  */
 public interface CategoryService {
-
     /**
      * Método para recuperar todas las categorías
      *
