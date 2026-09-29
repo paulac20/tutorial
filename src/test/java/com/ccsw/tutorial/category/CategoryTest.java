@@ -1,7 +1,5 @@
-package com.ccsw.tutorial;
+package com.ccsw.tutorial.category;
 
-import com.ccsw.tutorial.category.CategoryRepository;
-import com.ccsw.tutorial.category.CategoryServiceImpl;
 import com.ccsw.tutorial.category.model.Category;
 import com.ccsw.tutorial.category.model.CategoryDto;
 import org.junit.jupiter.api.Test;

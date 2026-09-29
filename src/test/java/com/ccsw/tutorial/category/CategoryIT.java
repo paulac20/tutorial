@@ -1,4 +1,4 @@
-package com.ccsw.tutorial;
+package com.ccsw.tutorial.category;
 
 import com.ccsw.tutorial.category.model.CategoryDto;
 import org.junit.jupiter.api.Test;
