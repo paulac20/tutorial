@@ -5,8 +5,13 @@ import com.ccsw.tutorial.author.model.AuthorDto;
 import com.ccsw.tutorial.author.model.AuthorSearchDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 /**
  * @author ccsw
@@ -18,6 +23,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AuthorController {
 
+    @Autowired
+    AuthorService authorService;
+
+    @Autowired
+    ModelMapper mapper;
+
     /**
      * Método para recuperar un listado paginado de {@link Author}
      *
@@ -28,7 +39,17 @@ public class AuthorController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Page<AuthorDto> findPage(@RequestBody AuthorSearchDto dto) {
 
-        return null;
+        // El método findPage nos devuelve una página no una lista
+        Page<Author> page = this.authorService.findPage(dto);
+
+        /* Creamos una nueva página que contendrá un AuthorDto en vez de Author
+         * .getContent() para obtener los autores contenidos en esa página concreta.
+         * .stream().map() convierte una lista en un stream para procesar los elementos y el mapper
+         * los convierte en un AuthorDto (e es cada uno de los autores y el mapper hace la conversión
+         * .collect(Collectors.toList()) sirve para volver a agrupar en una lista después de haberlos convertido
+         * Se crea una nueva PageImpl que es una implementación de la interfaz Page y recibe 3 parámetros:
+         * contenido, informaciónDePaginación y totalDeElementos */
+        return new PageImpl<>(page.getContent().stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
     }
 
     /**
@@ -41,6 +62,7 @@ public class AuthorController {
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
     public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody AuthorDto dto) {
 
+        this.authorService.save(id, dto);
     }
 
     /**
@@ -52,5 +74,7 @@ public class AuthorController {
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) throws Exception {
 
+        this.authorService.delete(id);
     }
+
 }
