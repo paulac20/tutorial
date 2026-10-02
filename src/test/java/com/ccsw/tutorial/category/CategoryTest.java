@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /* Indica que se inicie el contexto de la aplicación */
@@ -29,6 +28,7 @@ public class CategoryTest {
 
     public static final String CATEGORY_NAME = "CAT1";
     public static final Long EXISTS_CATEGORY_ID = 1L;
+    public static final Long NOT_EXISTS_CATEGORY_ID = 0L;
 
     @Test
     public void findAllShouldReturnAllCategories() {
@@ -88,6 +88,29 @@ public class CategoryTest {
         categoryService.delete(EXISTS_CATEGORY_ID);
 
         verify(categoryRepository).deleteById(EXISTS_CATEGORY_ID);
+    }
+
+    @Test
+    public void getExistsCategoryIdShouldReturnCategory() {
+
+        Category category = mock(Category.class);
+        when(category.getId()).thenReturn(EXISTS_CATEGORY_ID);
+        when(categoryRepository.findById(EXISTS_CATEGORY_ID)).thenReturn(Optional.of(category));
+
+        Category categoryResponse = categoryService.get(EXISTS_CATEGORY_ID);
+
+        assertNotNull(categoryResponse);
+        assertEquals(EXISTS_CATEGORY_ID, category.getId());
+    }
+
+    @Test
+    public void getNotExistsCategoryIdShouldReturnNull() {
+
+        when(categoryRepository.findById(NOT_EXISTS_CATEGORY_ID)).thenReturn(Optional.empty());
+
+        Category category = categoryService.get(NOT_EXISTS_CATEGORY_ID);
+
+        assertNull(category);
     }
 
 }
