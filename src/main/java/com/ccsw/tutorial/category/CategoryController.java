@@ -70,6 +70,7 @@ public class CategoryController {
      * Método para borrar una categoria
      *
      * @param id PK de la entidad
+     * @throws Exception cuando no existe la categoría
      */
     @Operation(summary = "Delete", description = "Method that deletes a Category")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
