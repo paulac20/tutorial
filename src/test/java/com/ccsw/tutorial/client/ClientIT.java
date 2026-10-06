@@ -24,10 +24,9 @@ public class ClientIT {
 
     public static final String LOCALHOST = "http://localhost:";
     public static final String SERVICE_PATH = "/client";
-    public static final Long NEW_CLIENT_ID = 6L;
-    public static final String NEW_CLIENT_NAME = "CLI6";
+    public static final Long NEW_CLIENT_ID = 7L;
+    public static final String NEW_CLIENT_NAME = "CLI7";
     public static final Long MODIFY_CLIENT_ID = 5L;
-    public static final Long DELETE_CLIENT_ID = 2L;
 
     @LocalServerPort
     private int port;
@@ -81,7 +80,7 @@ public class ClientIT {
 
         ResponseEntity<List<ClientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
-        assertEquals(7, response.getBody().size());
+        assertEquals(6, response.getBody().size());
 
         ClientDto clientSearch = response.getBody().stream().filter(item -> item.getId().equals(MODIFY_CLIENT_ID)).findFirst().orElse(null);
         assertNotNull(clientSearch);
@@ -93,7 +92,7 @@ public class ClientIT {
         ClientDto dto = new ClientDto();
         dto.setName(NEW_CLIENT_NAME);
 
-        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_CLIENT_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NEW_CLIENT_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
@@ -109,7 +108,7 @@ public class ClientIT {
 
     @Test
     public void deleteWithNotExistsIdShouldInternalError() {
-        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_CLIENT_ID, HttpMethod.DELETE, null, Void.class);
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NEW_CLIENT_ID, HttpMethod.DELETE, null, Void.class);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }

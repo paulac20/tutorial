@@ -22,7 +22,7 @@ public class Category {
      * este campo no puede ir vacío (nulltable=false) */
     @Column(name = "id", nullable = false)
     private Long id;
-
+    
     @Column(name = "name", nullable = false)
     private String name;
 

@@ -55,6 +55,8 @@ public class ClientController {
      * @param id PK de la entidad
      * @throws Exception cuando no existe el cliente
      */
+    @Operation(summary = "Delete", description = "Method that deletes a Client")
+    @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) throws Exception {
         this.clientService.delete(id);
     }
