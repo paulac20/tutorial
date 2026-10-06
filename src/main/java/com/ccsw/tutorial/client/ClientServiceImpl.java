@@ -10,6 +10,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * @author Paula Crespo
+ */
 @Service
 @Transactional
 public class ClientServiceImpl implements ClientService {
@@ -23,7 +26,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Client> findAll() {
-        return (List<Client>) this.clientRepository.findAll();
+        return this.clientRepository.findAllByOrderByIdAsc();
     }
 
     @Override
