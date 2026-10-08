@@ -2,7 +2,6 @@ package com.ccsw.tutorial.prestamo.model;
 
 import com.ccsw.tutorial.client.model.ClientDto;
 import com.ccsw.tutorial.game.model.GameDto;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -16,10 +15,8 @@ public class PrestamoDto {
 
     private ClientDto client;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date date_ini;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date date_fin;
 
     /**

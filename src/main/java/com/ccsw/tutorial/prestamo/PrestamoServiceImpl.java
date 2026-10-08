@@ -1,5 +1,7 @@
 package com.ccsw.tutorial.prestamo;
 
+import com.ccsw.tutorial.client.ClientService;
+import com.ccsw.tutorial.game.GameService;
 import com.ccsw.tutorial.prestamo.model.Prestamo;
 import com.ccsw.tutorial.prestamo.model.PrestamoDto;
 import com.ccsw.tutorial.prestamo.model.PrestamoSearchDto;
@@ -21,6 +23,12 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Autowired
     PrestamoRepository prestamoRepository;
 
+    @Autowired
+    private GameService gameService;
+
+    @Autowired
+    private ClientService clientService;
+
     @Override
     public Prestamo get(Long id) {
         return this.prestamoRepository.findById(id).orElse(null);
@@ -32,16 +40,16 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public void save(Long id, PrestamoDto data) {
+    public void save(Long id, PrestamoDto dto) {
         Prestamo prestamo;
 
-        if (id == null) {
-            prestamo = new Prestamo();
-        } else {
-            prestamo = this.get(id);
-        }
+        prestamo = new Prestamo();
 
-        BeanUtils.copyProperties(data, prestamo, "id");
+        BeanUtils.copyProperties(dto, prestamo, "id", "game", "client");
+
+        prestamo.setGame(gameService.get(dto.getGame().getId()));
+        prestamo.setClient(clientService.get(dto.getClient().getId()));
+
         this.prestamoRepository.save(prestamo);
     }
 
@@ -50,6 +58,8 @@ public class PrestamoServiceImpl implements PrestamoService {
         if (this.get(id) == null) {
             throw new Exception("Not exists");
         }
+
+        this.prestamoRepository.deleteById(id);
     }
 
     @Override

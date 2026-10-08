@@ -19,4 +19,5 @@ public interface GameRepository extends CrudRepository<Game, Long>, JpaSpecifica
     // y author en la misma operación, evitando consultas adicionales posteriores (mejora el rendimiento)
     @EntityGraph(attributePaths = { "category", "author" })
     List<Game> findAll(Specification<Game> spec);
+
 }
