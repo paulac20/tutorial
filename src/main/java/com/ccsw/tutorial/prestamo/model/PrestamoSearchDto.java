@@ -9,7 +9,7 @@ public class PrestamoSearchDto {
 
     private PageableRequest pageable;
 
-    private PageableRequest getPageable() {
+    public PageableRequest getPageable() {
         return pageable;
     }
 
