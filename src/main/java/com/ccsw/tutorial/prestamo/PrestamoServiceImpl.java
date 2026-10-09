@@ -43,7 +43,11 @@ public class PrestamoServiceImpl implements PrestamoService {
     public void save(Long id, PrestamoDto dto) {
         Prestamo prestamo;
 
-        prestamo = new Prestamo();
+        if (id == null) {
+            prestamo = new Prestamo();
+        } else {
+            prestamo = this.get(id);
+        }
 
         BeanUtils.copyProperties(dto, prestamo, "id", "game", "client");
 
