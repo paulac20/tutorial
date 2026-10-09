@@ -4,7 +4,7 @@ import com.ccsw.tutorial.client.model.Client;
 import com.ccsw.tutorial.game.model.Game;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Paula Crespo
@@ -27,10 +27,10 @@ public class Prestamo {
     private Client client;
 
     @Column(name = "date_ini", nullable = false)
-    private Date date_ini;
+    private LocalDate date_ini;
 
     @Column(name = "date_fin", nullable = false)
-    private Date date_fin;
+    private LocalDate date_fin;
 
     /**
      * @return id
@@ -77,28 +77,28 @@ public class Prestamo {
     /**
      * @return date_ini
      */
-    public Date getDate_ini() {
+    public LocalDate getDate_ini() {
         return this.date_ini;
     }
 
     /**
      * @param date_ini new value of {@link #getDate_ini()}
      */
-    public void setDate_ini(Date date_ini) {
+    public void setDate_ini(LocalDate date_ini) {
         this.date_ini = date_ini;
     }
 
     /**
      * @return date_fin
      */
-    public Date getDate_fin() {
+    public LocalDate getDate_fin() {
         return this.date_fin;
     }
 
     /**
      * @param date_fin new value of {@link #getDate_fin()}
      */
-    public void setDate_fin(Date date_fin) {
+    public void setDate_fin(LocalDate date_fin) {
         this.date_fin = date_fin;
     }
 }

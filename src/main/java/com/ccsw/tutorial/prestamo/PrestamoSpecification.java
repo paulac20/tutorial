@@ -5,7 +5,7 @@ import com.ccsw.tutorial.prestamo.model.Prestamo;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PrestamoSpecification implements Specification<Prestamo> {
 
@@ -29,9 +29,9 @@ public class PrestamoSpecification implements Specification<Prestamo> {
                     return builder.equal(path, criteria.getValue());
                 }
             } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
-                return builder.greaterThanOrEqualTo(path.as(Date.class), (Date) criteria.getValue());
+                return builder.equal(path.as(LocalDate.class), (LocalDate) criteria.getValue());
             } else if (criteria.getOperation().equalsIgnoreCase("<=")) {
-                return builder.lessThanOrEqualTo(path.as(Date.class), (Date) criteria.getValue());
+                return builder.lessThanOrEqualTo(path.as(LocalDate.class), (LocalDate) criteria.getValue());
             }
         }
         return null;

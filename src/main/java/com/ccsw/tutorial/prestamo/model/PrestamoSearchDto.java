@@ -2,7 +2,7 @@ package com.ccsw.tutorial.prestamo.model;
 
 import com.ccsw.tutorial.common.pagination.PageableRequest;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Paula Crespo
@@ -12,7 +12,7 @@ public class PrestamoSearchDto {
     private PageableRequest pageable;
     private Long gameId;
     private Long clientId;
-    private Date date;
+    private LocalDate date;
 
     public PageableRequest getPageable() {
         return pageable;
@@ -38,11 +38,11 @@ public class PrestamoSearchDto {
         this.clientId = clientId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
