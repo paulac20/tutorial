@@ -10,8 +10,8 @@ import java.util.Date;
 public class PrestamoSearchDto {
 
     private PageableRequest pageable;
-    private Long idGame;
-    private Long idClient;
+    private Long gameId;
+    private Long clientId;
     private Date date;
 
     public PageableRequest getPageable() {
@@ -22,20 +22,20 @@ public class PrestamoSearchDto {
         this.pageable = pageable;
     }
 
-    public Long getIdGame() {
-        return this.idGame;
+    public Long getGameId() {
+        return this.gameId;
     }
 
-    public void setIdGame(Long idGame) {
-        this.idGame = idGame;
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 
-    public Long getIdClient() {
-        return this.idClient;
+    public Long getClientId() {
+        return this.clientId;
     }
 
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public Date getDate() {
