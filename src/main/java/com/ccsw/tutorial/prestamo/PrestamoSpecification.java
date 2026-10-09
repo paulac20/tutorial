@@ -1,4 +1,4 @@
-/*package com.ccsw.tutorial.prestamo;
+package com.ccsw.tutorial.prestamo;
 
 import com.ccsw.tutorial.common.criteria.SearchCriteria;
 import com.ccsw.tutorial.prestamo.model.Prestamo;
@@ -11,7 +11,7 @@ public class PrestamoSpecification implements Specification<Prestamo> {
 
     private final SearchCriteria criteria;
 
-    public GameSpecification(SearchCriteria criteria) {
+    public PrestamoSpecification(SearchCriteria criteria) {
         this.criteria = criteria;
     }
 
@@ -40,4 +40,4 @@ public class PrestamoSpecification implements Specification<Prestamo> {
 
         return expression;
     }
-}*/
+}
