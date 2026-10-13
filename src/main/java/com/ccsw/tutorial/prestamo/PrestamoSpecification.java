@@ -19,17 +19,17 @@ public class PrestamoSpecification implements Specification<Prestamo> {
 
     @Override
     public Predicate toPredicate(Root<Prestamo> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        Path<String> path = getPath(root);
+        Path<?> path = getPath(root);
         if (criteria.getValue() != null) {
             //Para filtrar por juegos y clientes
             if (criteria.getOperation().equalsIgnoreCase(":")) {
                 if (path.getJavaType() == String.class) {
-                    return builder.like(path, "%" + criteria.getValue() + "%");
+                    return builder.like((Expression<String>) path, "%" + criteria.getValue() + "%");
                 } else {
                     return builder.equal(path, criteria.getValue());
                 }
             } else if (criteria.getOperation().equalsIgnoreCase(">=")) {
-                return builder.equal(path.as(LocalDate.class), (LocalDate) criteria.getValue());
+                return builder.greaterThanOrEqualTo(path.as(LocalDate.class), (LocalDate) criteria.getValue());
             } else if (criteria.getOperation().equalsIgnoreCase("<=")) {
                 return builder.lessThanOrEqualTo(path.as(LocalDate.class), (LocalDate) criteria.getValue());
             }
@@ -37,7 +37,7 @@ public class PrestamoSpecification implements Specification<Prestamo> {
         return null;
     }
 
-    private Path<String> getPath(Root<Prestamo> root) {
+    private Path<?> getPath(Root<Prestamo> root) {
         String key = criteria.getKey();
         String[] split = key.split("[.]", 0);
 

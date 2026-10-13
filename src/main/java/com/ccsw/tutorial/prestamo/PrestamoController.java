@@ -32,9 +32,6 @@ public class PrestamoController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Page<PrestamoDto> findPage(@RequestBody PrestamoSearchDto dto) {
         Page<Prestamo> page = this.prestamoService.findPage(dto);
-        System.out.println(dto.getGameId());
-        System.out.println(dto.getClientId());
-        System.out.println(dto.getDate());
         return new PageImpl<>(page.getContent().stream().map(e -> mapper.map(e, PrestamoDto.class)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
     }
 
