@@ -40,4 +40,6 @@ public interface ClientService {
      * @throws Exception cuando no existe el cliente
      */
     void delete(Long id) throws Exception;
+
+    void validateClient(ClientDto dto);
 }

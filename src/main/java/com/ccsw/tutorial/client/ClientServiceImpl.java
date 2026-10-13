@@ -39,9 +39,8 @@ public class ClientServiceImpl implements ClientService {
             client = this.get(id);
         }
 
-        if (clientRepository.existsByName(dto.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe un cliente con ese nombre");
-        }
+        validateClient(dto);
+
         client.setName(dto.getName());
         this.clientRepository.save(client);
     }
@@ -53,5 +52,12 @@ public class ClientServiceImpl implements ClientService {
         }
 
         this.clientRepository.deleteById(id);
+    }
+
+    @Override
+    public void validateClient(ClientDto dto) {
+        if (clientRepository.existsByName(dto.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe un cliente con ese nombre");
+        }
     }
 }

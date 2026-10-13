@@ -21,4 +21,10 @@ public interface PrestamoService {
     void delete(Long id) throws Exception;
 
     List<Prestamo> findAll();
+    
+    void validateClient(PrestamoDto dto);
+
+    void validateGame(PrestamoDto dto);
+
+    void validateDates(PrestamoDto dto);
 }

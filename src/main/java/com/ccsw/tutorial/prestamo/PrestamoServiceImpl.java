@@ -40,8 +40,8 @@ public class PrestamoServiceImpl implements PrestamoService {
     public Page<Prestamo> findPage(PrestamoSearchDto dto) {
         PrestamoSpecification gameSpec = new PrestamoSpecification(new SearchCriteria("game.id", ":", dto.getGameId()));
         PrestamoSpecification clientSpec = new PrestamoSpecification(new SearchCriteria("client.id", ":", dto.getClientId()));
-        PrestamoSpecification iniDateSpec = new PrestamoSpecification(new SearchCriteria("date_ini", "<=", dto.getDate()));
-        PrestamoSpecification finDateSpec = new PrestamoSpecification(new SearchCriteria("date_fin", ">=", dto.getDate()));
+        PrestamoSpecification iniDateSpec = new PrestamoSpecification(new SearchCriteria("dateIni", "<=", dto.getDate()));
+        PrestamoSpecification finDateSpec = new PrestamoSpecification(new SearchCriteria("dateFin", ">=", dto.getDate()));
 
         Specification<Prestamo> spec = Specification.where(gameSpec).and(clientSpec).and(iniDateSpec).and(finDateSpec);
 
@@ -79,4 +79,20 @@ public class PrestamoServiceImpl implements PrestamoService {
     public List<Prestamo> findAll() {
         return (List<Prestamo>) this.prestamoRepository.findAll();
     }
+
+    @Override
+    public void validateClient(PrestamoDto dto) {
+
+    }
+
+    @Override
+    public void validateGame(PrestamoDto dto) {
+
+    }
+
+    @Override
+    public void validateDates(PrestamoDto dto) {
+
+    }
+
 }

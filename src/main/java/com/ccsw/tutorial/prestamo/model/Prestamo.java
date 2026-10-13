@@ -27,10 +27,10 @@ public class Prestamo {
     private Client client;
 
     @Column(name = "date_ini", nullable = false)
-    private LocalDate date_ini;
+    private LocalDate dateIni;
 
     @Column(name = "date_fin", nullable = false)
-    private LocalDate date_fin;
+    private LocalDate dateFin;
 
     /**
      * @return id
@@ -75,30 +75,30 @@ public class Prestamo {
     }
 
     /**
-     * @return date_ini
+     * @return dateIni
      */
-    public LocalDate getDate_ini() {
-        return this.date_ini;
+    public LocalDate getDateIni() {
+        return this.dateIni;
     }
 
     /**
-     * @param date_ini new value of {@link #getDate_ini()}
+     * @param date_ini new value of {@link #getDateIni()}
      */
-    public void setDate_ini(LocalDate date_ini) {
-        this.date_ini = date_ini;
+    public void setDateIni(LocalDate date_ini) {
+        this.dateIni = date_ini;
     }
 
     /**
-     * @return date_fin
+     * @return dateFin
      */
-    public LocalDate getDate_fin() {
-        return this.date_fin;
+    public LocalDate getDateFin() {
+        return this.dateFin;
     }
 
     /**
-     * @param date_fin new value of {@link #getDate_fin()}
+     * @param date_fin new value of {@link #getDateFin()}
      */
-    public void setDate_fin(LocalDate date_fin) {
-        this.date_fin = date_fin;
+    public void setDateFin(LocalDate date_fin) {
+        this.dateFin = date_fin;
     }
 }

@@ -15,4 +15,6 @@ public interface PrestamoRepository extends CrudRepository<Prestamo, Long>, JpaS
     @Override
     @EntityGraph(attributePaths = { "game", "client" })
     Page<Prestamo> findAll(Specification<Prestamo> spec, Pageable pageable);
+
+    //@Query("""SELECT COUNT(p)>0 FROM pretamo p WHERE p.""")
 }

@@ -31,7 +31,7 @@ VALUES ('Los viajes de Marco Polo', '12', 1, 3);
 INSERT INTO game(title, age, category_id, author_id)
 VALUES ('Azul', '8', 3, 5);
 INSERT INTO game(title, age, category_id, author_id)
-VALUES ('Overwach', '18', 1, 4);
+VALUES ('Overwatch', '18', 1, 4);
 
 INSERT INTO client(name)
 VALUES ('Alba');

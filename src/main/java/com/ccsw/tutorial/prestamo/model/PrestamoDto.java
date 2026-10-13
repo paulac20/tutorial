@@ -15,9 +15,9 @@ public class PrestamoDto {
 
     private ClientDto client;
 
-    private LocalDate date_ini;
+    private LocalDate dateIni;
 
-    private LocalDate date_fin;
+    private LocalDate dateFin;
 
     /**
      * @return id
@@ -59,30 +59,31 @@ public class PrestamoDto {
     }
 
     /**
-     * @return date_ini
+     * @return dateIni
      */
-    public LocalDate getDate_ini() {
-        return this.date_ini;
+    public LocalDate getdateIni() {
+
+        return this.dateIni;
     }
 
     /**
-     * @param date_ini new value of {@link #getDate_ini()}
+     * @param dateIni new value of {@link #getdateIni()}
      */
-    public void setDate_ini(LocalDate date_ini) {
-        this.date_ini = date_ini;
+    public void setdateIni(LocalDate dateIni) {
+        this.dateIni = dateIni;
     }
 
     /**
-     * @return date_fin
+     * @return dateFin
      */
-    public LocalDate getDate_fin() {
-        return this.date_fin;
+    public LocalDate getdateFin() {
+        return this.dateFin;
     }
 
     /**
-     * @param date_fin new value of {@link #getDate_fin()}
+     * @param dateFin new value of {@link #getdateFin()}
      */
-    public void setDate_fin(LocalDate date_fin) {
-        this.date_fin = date_fin;
+    public void setdateFin(LocalDate dateFin) {
+        this.dateFin = dateFin;
     }
 }
