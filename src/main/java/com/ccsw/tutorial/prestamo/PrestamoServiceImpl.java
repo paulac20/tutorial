@@ -85,22 +85,17 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public void validateClient(PrestamoDto dto) {
-
-    }
-
-    @Override
-    public void validateGame(PrestamoDto dto) {
+    public void validateDates(PrestamoDto dto) {
 
     }
 
     @Override
     public void validatePrestamo(PrestamoDto dto) {
         if (prestamoRepository.existsOverlappingDatesByClient(dto.getClient().getId(), dto.getDateIni(), dto.getDateFin())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este cliente ya tiene un préstamo para estas fechas");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CLIENT_ALREADY_HAS_PRESTAMO");
 
         } else if (prestamoRepository.existsOverlappingDatesByGame(dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este juego ya está prestado para estas fechas");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "GAME_ALREADY_PRESTADO");
         }
     }
 

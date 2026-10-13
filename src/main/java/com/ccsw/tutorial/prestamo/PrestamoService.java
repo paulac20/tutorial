@@ -22,9 +22,7 @@ public interface PrestamoService {
 
     List<Prestamo> findAll();
 
-    void validateClient(PrestamoDto dto);
-
-    void validateGame(PrestamoDto dto);
+    void validateDates(PrestamoDto dto);
 
     void validatePrestamo(PrestamoDto dto);
 }
