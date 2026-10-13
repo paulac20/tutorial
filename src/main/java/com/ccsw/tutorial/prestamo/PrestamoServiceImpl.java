@@ -11,7 +11,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -58,6 +60,8 @@ public class PrestamoServiceImpl implements PrestamoService {
             prestamo = this.get(id);
         }
 
+        validatePrestamo(dto);
+
         BeanUtils.copyProperties(dto, prestamo, "id", "game", "client");
 
         prestamo.setGame(gameService.get(dto.getGame().getId()));
@@ -91,8 +95,13 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public void validateDates(PrestamoDto dto) {
+    public void validatePrestamo(PrestamoDto dto) {
+        if (prestamoRepository.existsOverlappingDatesByClient(dto.getClient().getId(), dto.getDateIni(), dto.getDateFin())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este cliente ya tiene un préstamo para estas fechas");
 
+        } else if (prestamoRepository.existsOverlappingDatesByGame(dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este juego ya está prestado para estas fechas");
+        }
     }
 
 }

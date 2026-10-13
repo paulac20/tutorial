@@ -61,29 +61,29 @@ public class PrestamoDto {
     /**
      * @return dateIni
      */
-    public LocalDate getdateIni() {
+    public LocalDate getDateIni() {
 
         return this.dateIni;
     }
 
     /**
-     * @param dateIni new value of {@link #getdateIni()}
+     * @param dateIni new value of {@link #getDateIni()}
      */
-    public void setdateIni(LocalDate dateIni) {
+    public void setDateIni(LocalDate dateIni) {
         this.dateIni = dateIni;
     }
 
     /**
      * @return dateFin
      */
-    public LocalDate getdateFin() {
+    public LocalDate getDateFin() {
         return this.dateFin;
     }
 
     /**
-     * @param dateFin new value of {@link #getdateFin()}
+     * @param dateFin new value of {@link #getDateFin()}
      */
-    public void setdateFin(LocalDate dateFin) {
+    public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
     }
 }
