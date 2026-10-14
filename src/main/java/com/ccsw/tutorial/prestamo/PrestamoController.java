@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -46,5 +47,13 @@ public class PrestamoController {
     public void delete(@PathVariable("id") Long id) throws Exception {
 
         this.prestamoService.delete(id);
+    }
+
+    @Operation(summary = "Find", description = "Method that return a list of Prestamos")
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public List<PrestamoDto> findAll() {
+        List<Prestamo> prestamos = this.prestamoService.findAll();
+
+        return prestamos.stream().map(e -> mapper.map(e, PrestamoDto.class)).collect(Collectors.toList());
     }
 }
