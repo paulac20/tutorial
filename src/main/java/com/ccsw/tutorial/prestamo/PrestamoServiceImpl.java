@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -56,11 +57,12 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         if (id == null) {
             prestamo = new Prestamo();
+            validatePrestamo(dto);
         } else {
             prestamo = this.get(id);
         }
 
-        validatePrestamo(dto);
+        validateDates(dto);
 
         BeanUtils.copyProperties(dto, prestamo, "id", "game", "client");
 
@@ -86,7 +88,12 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Override
     public void validateDates(PrestamoDto dto) {
-
+        if (dto.getDateFin().isBefore(dto.getDateIni())) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "END_DATE_HAS_TO_BE_AFTER");
+        }
+        if (ChronoUnit.DAYS.between(dto.getDateIni(), dto.getDateFin()) > 14) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "ONLY_14_DAYS");
+        }
     }
 
     @Override
