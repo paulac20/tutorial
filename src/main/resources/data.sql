@@ -51,9 +51,9 @@ VALUES ('Alberto');
 INSERT INTO prestamo(game_id, client_id, date_ini, date_fin)
 VALUES (1, 1, '2025-01-09', '2025-01-14');
 INSERT INTO prestamo(game_id, client_id, date_ini, date_fin)
-VALUES (2, 2, '2026-01-09', '2026-01-14');
+VALUES (2, 2, '2026-01-09', '2026-01-20');
 INSERT INTO prestamo(game_id, client_id, date_ini, date_fin)
-VALUES (3, 3, '2026-01-20', '2026-01-29');
+VALUES (3, 3, '2026-01-19', '2026-01-29');
 INSERT INTO prestamo(game_id, client_id, date_ini, date_fin)
 VALUES (4, 4, '2026-02-05', '2026-02-14');
 INSERT INTO prestamo(game_id, client_id, date_ini, date_fin)

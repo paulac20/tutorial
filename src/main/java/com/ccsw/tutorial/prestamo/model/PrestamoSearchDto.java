@@ -18,7 +18,7 @@ public class PrestamoSearchDto {
         return pageable;
     }
 
-    private void setPageable(PageableRequest pageable) {
+    public void setPageable(PageableRequest pageable) {
         this.pageable = pageable;
     }
 

@@ -42,4 +42,6 @@ public interface ClientService {
     void delete(Long id) throws Exception;
 
     void validateClient(ClientDto dto);
+
+    void validateDelete(Long clientId);
 }

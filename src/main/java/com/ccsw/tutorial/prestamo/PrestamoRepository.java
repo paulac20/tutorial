@@ -25,4 +25,6 @@ public interface PrestamoRepository extends CrudRepository<Prestamo, Long>, JpaS
 
     @Query("SELECT COUNT(p)>0 FROM Prestamo p WHERE p.game.id = :gameId AND (p.dateIni <= :dateFin AND p.dateFin >= :dateIni)")
     boolean existsOverlappingDatesByGame(@Param("gameId") Long gameId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
+
+    boolean existsByClientId(Long clientId);
 }
