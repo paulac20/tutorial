@@ -53,7 +53,7 @@ public class ClientServiceImpl implements ClientService {
         if (this.get(id) == null) {
             throw new Exception("Not exists");
         }
-        validateDelete(id);
+        validateDeleteClient(id);
         this.clientRepository.deleteById(id);
     }
 
@@ -65,9 +65,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void validateDelete(Long clientId) {
+    public void validateDeleteClient(Long clientId) {
         if (prestamoRepository.existsByClientId(clientId)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "CLIENT_NOT_DELETE");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CLIENT_NOT_CAN_BE_DELETED");
         }
     }
 }

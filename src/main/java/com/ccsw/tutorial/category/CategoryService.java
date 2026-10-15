@@ -40,4 +40,5 @@ public interface CategoryService {
      */
     void delete(Long id) throws Exception;
 
+    void validateDeleteCategory(Long categoryId);
 }

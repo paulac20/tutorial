@@ -43,5 +43,5 @@ public interface ClientService {
 
     void validateClient(ClientDto dto);
 
-    void validateDelete(Long clientId);
+    void validateDeleteClient(Long clientId);
 }

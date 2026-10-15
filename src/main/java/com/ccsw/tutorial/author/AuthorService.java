@@ -51,4 +51,5 @@ public interface AuthorService {
      */
     List<Author> findAll();
 
+    void validateDeleteAuthor(Long authorId);
 }

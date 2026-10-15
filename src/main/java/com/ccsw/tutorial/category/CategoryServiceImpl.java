@@ -2,9 +2,12 @@ package com.ccsw.tutorial.category;
 
 import com.ccsw.tutorial.category.model.Category;
 import com.ccsw.tutorial.category.model.CategoryDto;
+import com.ccsw.tutorial.game.GameRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,6 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
     // Para poder acceder al repositorio
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    private GameRepository gameRepository;
 
     /**
      * {@inheritDoc}
@@ -67,7 +72,14 @@ public class CategoryServiceImpl implements CategoryService {
         if (this.get(id) == null) {
             throw new Exception("Not exists");
         }
-
+        validateDeleteCategory(id);
         this.categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public void validateDeleteCategory(Long categoryId) {
+        if (gameRepository.existsByCategoryId(categoryId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CATEGORY_NOT_CAN_BE_DELETED");
+        }
     }
 }
