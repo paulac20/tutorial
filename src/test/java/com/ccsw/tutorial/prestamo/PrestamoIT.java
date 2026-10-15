@@ -37,7 +37,7 @@ public class PrestamoIT {
     private static final Long EXISTS_CLIENT = 2L;
     private static final Long NOT_EXISTS_GAME = 9L;
     private static final Long EXISTS_GAME = 2L;
-    private static final Long NEW_PRESTAMO_ID = 7L;
+    private static final Long MODIFY_PRESTAMO_ID = 5L;
     private static final Long NEW_PRESTAMO_CLIENT_NOT_PRESTAMO = 1L;
     private static final Long NEW_PRESTAMO_GAME_NOT_PRESTAMO = 1L;
     private static final LocalDate DATE_INI = LocalDate.of(2026, 10, 8);
@@ -374,6 +374,7 @@ public class PrestamoIT {
 
     @Test
     public void saveWithoutIdShouldCreateNewPrestamo() {
+        int newPrestamoSize = 7;
         PrestamoDto dto = new PrestamoDto();
         GameDto gamedto = new GameDto();
         ClientDto clientdto = new ClientDto();
@@ -385,7 +386,91 @@ public class PrestamoIT {
         dto.setDateIni(DATE_INI);
         dto.setDateFin(DATE_FIN);
 
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, newPrestamoSize));
+        searchDto.setClientId(1L);
+        searchDto.setGameId(1L);
+        searchDto.setDate(DATE_INI);
+
+        ResponseEntity<ResponsePage<PrestamoDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getTotalElements());
+
         restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getTotalElements());
+    }
+
+    @Test
+    public void saveWithClientWithPrestamoInTheSameDateShouldConflict() {
+
+    }
+
+    @Test
+    public void saveWithGamePrestadoInTheSameDateShouldConflict() {
+
+    }
+
+    @Test
+    public void saveWithEndDateBeforeStartDateShouldReturnNotAcceptable() {
+
+    }
+
+    @Test
+    public void saveWithMoreThanFourteenDaysOfPrestamoShouldReturnNotAcceptable() {
+
+    }
+
+    @Test
+    public void modifyWithExistsShouldModifyPrestamo() {
+        int newPrestamoSize = 7;
+        PrestamoDto dto = new PrestamoDto();
+        GameDto gamedto = new GameDto();
+        ClientDto clientdto = new ClientDto();
+        gamedto.setId(1L);
+        clientdto.setId(1L);
+
+        dto.setClient(clientdto);
+        dto.setGame(gamedto);
+        dto.setDateIni(DATE_INI);
+        dto.setDateFin(DATE_FIN);
+
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, newPrestamoSize));
+        searchDto.setClientId(1L);
+        searchDto.setGameId(1L);
+        searchDto.setDate(DATE_INI);
+
+        ResponseEntity<ResponsePage<PrestamoDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getTotalElements());
+
+        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_PRESTAMO_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getContent().size());
+        assertEquals(MODIFY_PRESTAMO_ID, response.getBody().getContent().get(0).getId());
+    }
+
+    @Test
+    public void modifyWithNotExistIdShouldThrowException() {
+
+    }
+
+    @Test
+    public void deleteWithExistsIdShouldDeletePrestamo() {
+
+    }
+
+    @Test
+    public void deleteWithNotExistsIdShouldInternalError() {
 
     }
 }

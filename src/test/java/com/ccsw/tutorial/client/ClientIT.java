@@ -24,8 +24,8 @@ public class ClientIT {
 
     public static final String LOCALHOST = "http://localhost:";
     public static final String SERVICE_PATH = "/client";
-    public static final Long NEW_CLIENT_ID = 7L;
-    public static final String NEW_CLIENT_NAME = "CLI7";
+    public static final Long NEW_CLIENT_ID = 8L;
+    public static final String NEW_CLIENT_NAME = "CLI8";
     public static final Long MODIFY_CLIENT_ID = 5L;
 
     @LocalServerPort
@@ -42,7 +42,7 @@ public class ClientIT {
         ResponseEntity<List<ClientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
 
         assertNotNull(response);
-        assertEquals(6, response.getBody().size());
+        assertEquals(7, response.getBody().size());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ClientIT {
 
         ResponseEntity<List<ClientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
-        assertEquals(7, response.getBody().size());
+        assertEquals(8, response.getBody().size());
 
         ClientDto clientSearch = response.getBody().stream().filter(item -> item.getId().equals(NEW_CLIENT_ID)).findFirst().orElse(null);
         assertNotNull(clientSearch);
@@ -80,7 +80,7 @@ public class ClientIT {
 
         ResponseEntity<List<ClientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
-        assertEquals(6, response.getBody().size());
+        assertEquals(7, response.getBody().size());
 
         ClientDto clientSearch = response.getBody().stream().filter(item -> item.getId().equals(MODIFY_CLIENT_ID)).findFirst().orElse(null);
         assertNotNull(clientSearch);
@@ -103,7 +103,7 @@ public class ClientIT {
 
         ResponseEntity<List<ClientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
-        assertEquals(5, response.getBody().size());
+        assertEquals(6, response.getBody().size());
     }
 
     @Test
