@@ -27,6 +27,8 @@ public class ClientIT {
     public static final Long NEW_CLIENT_ID = 8L;
     public static final String NEW_CLIENT_NAME = "CLI8";
     public static final Long MODIFY_CLIENT_ID = 5L;
+    public static final Long DELETE_CLIENT_ID = 7L;
+    public static final Long NOT_DELETE_CLLIENT_ID = 1L;
 
     @LocalServerPort
     private int port;
@@ -99,7 +101,7 @@ public class ClientIT {
 
     @Test
     public void deleteWithExistsIdShouldDeleteClient() {
-        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_CLIENT_ID, HttpMethod.DELETE, null, Void.class);
+        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + DELETE_CLIENT_ID, HttpMethod.DELETE, null, Void.class);
 
         ResponseEntity<List<ClientDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
@@ -111,5 +113,12 @@ public class ClientIT {
         ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NEW_CLIENT_ID, HttpMethod.DELETE, null, Void.class);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void deleteWithPrestamoAsociadoShouldConflict() {
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NOT_DELETE_CLLIENT_ID, HttpMethod.DELETE, null, Void.class);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 }

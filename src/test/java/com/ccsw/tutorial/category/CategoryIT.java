@@ -30,6 +30,8 @@ public class CategoryIT {
     public static final Long NEW_CATEGORY_ID = 4L;
     public static final String NEW_CATEGORY_NAME = "CAT4";
     public static final Long MODIFY_CATEGORY_ID = 3L;
+    public static final Long DELETE_CATEGORY_ID = 2L;
+    public static final Long NOT_DELETE_CATEGORY_ID = 1L;
 
     @LocalServerPort
     private int port;
@@ -101,8 +103,6 @@ public class CategoryIT {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
-    public static final Long DELETE_CATEGORY_ID = 2L;
-
     @Test
     public void deleteWithExistsIdShouldDeleteCategory() {
 
@@ -121,4 +121,10 @@ public class CategoryIT {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
+    @Test
+    public void deleteWithGameAsociadoShouldConflict() {
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NOT_DELETE_CATEGORY_ID, HttpMethod.DELETE, null, Void.class);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
 }

@@ -28,6 +28,7 @@ public class AuthorIT {
     public static final String LOCALHOST = "http://localhost:";
     public static final String SERVICE_PATH = "/author";
 
+    public static final Long NOT_DELETE_AUTHOR_ID = 1L;
     public static final Long DELETE_AUTHOR_ID = 6L;
     public static final Long MODIFY_AUTHOR_ID = 3L;
     public static final String NEW_AUTHOR_NAME = "Nuevo Autor";
@@ -171,4 +172,10 @@ public class AuthorIT {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
+    @Test
+    public void deleteWithGameAsociadoShouldConflict() {
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NOT_DELETE_AUTHOR_ID, HttpMethod.DELETE, null, Void.class);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
 }

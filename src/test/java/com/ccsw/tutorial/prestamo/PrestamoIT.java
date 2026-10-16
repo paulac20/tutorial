@@ -14,9 +14,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,15 +31,15 @@ public class PrestamoIT {
     public static final String LOCALHOST = "http://localhost:";
     public static final String SERVICE_PATH = "/prestamo";
 
-    public static final Long EXISTS_PRESTAMO_ID = 1L;
-    public static final Long NOT_EXISTS_PRESTAMO_ID = 0L;
+    public static final Long DELETE_PRESTAMO_ID = 1L;
+    public static final Long NOT_EXISTS_PRESTAMO_ID = 9L;
     private static final Long NOT_EXISTS_CLIENT = 9L;
     private static final Long EXISTS_CLIENT = 2L;
     private static final Long NOT_EXISTS_GAME = 9L;
     private static final Long EXISTS_GAME = 2L;
     private static final Long MODIFY_PRESTAMO_ID = 5L;
-    private static final Long NEW_PRESTAMO_CLIENT_NOT_PRESTAMO = 1L;
-    private static final Long NEW_PRESTAMO_GAME_NOT_PRESTAMO = 1L;
+    private static final Long NEW_PRESTAMO_CLIENT_NOT_PRESTAMO = 6L;
+    private static final Long NEW_PRESTAMO_GAME_NOT_PRESTAMO = 7L;
     private static final LocalDate DATE_INI = LocalDate.of(2026, 10, 8);
     private static final LocalDate DATE_FIN_BEFORE_INI = LocalDate.of(2026, 10, 1);
     private static final LocalDate DATE_FIN_AFTER_TWENTY_DAYS = LocalDate.of(2026, 10, 28);
@@ -63,11 +63,6 @@ public class PrestamoIT {
 
     ParameterizedTypeReference<List<PrestamoDto>> responseTypeList = new ParameterizedTypeReference<List<PrestamoDto>>() {
     };
-
-    private String getUrlWithParams() {
-        return UriComponentsBuilder.fromHttpUrl(LOCALHOST + port + SERVICE_PATH).queryParam(GAME_ID_PARAM, "{" + GAME_ID_PARAM + "}").queryParam(CLIENT_ID_PARAM, "{" + CLIENT_ID_PARAM + "}").queryParam(DATE_PARAM, "{" + DATE_PARAM + "}")
-                .encode().toUriString();
-    }
 
     @Test
     public void findAllShouldReturnAllPrestamo() {
@@ -407,21 +402,99 @@ public class PrestamoIT {
 
     @Test
     public void saveWithClientWithPrestamoInTheSameDateShouldConflict() {
+        PrestamoDto dto = new PrestamoDto();
+        GameDto gamedto = new GameDto();
+        ClientDto clientdto = new ClientDto();
+        gamedto.setId(1L);
+        clientdto.setId(NEW_PRESTAMO_CLIENT_NOT_PRESTAMO);
 
+        dto.setClient(clientdto);
+        dto.setGame(gamedto);
+        dto.setDateIni(DATE_INI);
+        dto.setDateFin(DATE_FIN);
+
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, 6));
+        searchDto.setClientId(1L);
+        searchDto.setGameId(1L);
+        searchDto.setDate(DATE_INI);
+
+        ResponseEntity<Void> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 
     @Test
     public void saveWithGamePrestadoInTheSameDateShouldConflict() {
+        PrestamoDto dto = new PrestamoDto();
+        GameDto gamedto = new GameDto();
+        ClientDto clientdto = new ClientDto();
+        gamedto.setId(NEW_PRESTAMO_GAME_NOT_PRESTAMO);
+        clientdto.setId(1L);
 
+        dto.setClient(clientdto);
+        dto.setGame(gamedto);
+        dto.setDateIni(DATE_INI);
+        dto.setDateFin(DATE_FIN);
+
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, 6));
+        searchDto.setClientId(1L);
+        searchDto.setGameId(1L);
+        searchDto.setDate(DATE_INI);
+
+        ResponseEntity<Void> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 
     @Test
     public void saveWithEndDateBeforeStartDateShouldReturnNotAcceptable() {
+        PrestamoDto dto = new PrestamoDto();
+        GameDto gamedto = new GameDto();
+        ClientDto clientdto = new ClientDto();
+        gamedto.setId(1L);
+        clientdto.setId(1L);
+
+        dto.setClient(clientdto);
+        dto.setGame(gamedto);
+        dto.setDateIni(DATE_INI);
+        dto.setDateFin(DATE_FIN_BEFORE_INI);
+
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, 6));
+        searchDto.setClientId(1L);
+        searchDto.setGameId(1L);
+        searchDto.setDate(DATE_INI);
+
+        ResponseEntity<Void> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
 
     }
 
     @Test
     public void saveWithMoreThanFourteenDaysOfPrestamoShouldReturnNotAcceptable() {
+        PrestamoDto dto = new PrestamoDto();
+        GameDto gamedto = new GameDto();
+        ClientDto clientdto = new ClientDto();
+        gamedto.setId(1L);
+        clientdto.setId(1L);
+
+        dto.setClient(clientdto);
+        dto.setGame(gamedto);
+        dto.setDateIni(DATE_INI);
+        dto.setDateFin(DATE_FIN_AFTER_TWENTY_DAYS);
+
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, 6));
+        searchDto.setClientId(1L);
+        searchDto.setGameId(1L);
+        searchDto.setDate(DATE_INI);
+
+        ResponseEntity<Void> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
 
     }
 
@@ -461,16 +534,34 @@ public class PrestamoIT {
 
     @Test
     public void modifyWithNotExistIdShouldThrowException() {
+        PrestamoDto dto = new PrestamoDto();
+        GameDto gamedto = new GameDto();
 
+        gamedto.setId(1L);
+        dto.setGame(gamedto);
+
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NOT_EXISTS_PRESTAMO_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
     @Test
     public void deleteWithExistsIdShouldDeletePrestamo() {
+        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + DELETE_PRESTAMO_ID, HttpMethod.DELETE, null, Void.class);
 
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, 5));
+
+        ResponseEntity<ResponsePage<PrestamoDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(5, response.getBody().getContent().size());
     }
 
     @Test
     public void deleteWithNotExistsIdShouldInternalError() {
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + NOT_EXISTS_PRESTAMO_ID, HttpMethod.DELETE, null, Void.class);
 
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }
