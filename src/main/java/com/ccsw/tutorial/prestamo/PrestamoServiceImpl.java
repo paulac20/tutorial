@@ -57,9 +57,10 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         if (id == null) {
             prestamo = new Prestamo();
-            validatePrestamo(dto);
+            validateNewPrestamo(dto);
         } else {
             prestamo = this.get(id);
+            validateModifyPrestamo(dto);
         }
 
         validateDates(dto);
@@ -97,13 +98,22 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public void validatePrestamo(PrestamoDto dto) {
-        if (prestamoRepository.existsOverlappingDatesByClient(dto.getClient().getId(), dto.getDateIni(), dto.getDateFin())) {
+    public void validateModifyPrestamo(PrestamoDto dto) {
+        if (prestamoRepository.existsOverlappingDatesByClient(dto.getId(), dto.getClient().getId(), dto.getDateIni(), dto.getDateFin())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "CLIENT_ALREADY_HAS_PRESTAMO");
 
-        } else if (prestamoRepository.existsOverlappingDatesByGame(dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
+        } else if (prestamoRepository.existsOverlappingDatesByGame(dto.getId(), dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "GAME_ALREADY_PRESTADO");
         }
     }
 
+    @Override
+    public void validateNewPrestamo(PrestamoDto dto) {
+        if (prestamoRepository.existsOverlappingDatesByClientOfNewPrestamos(dto.getClient().getId(), dto.getDateIni(), dto.getDateFin())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CLIENT_ALREADY_HAS_PRESTAMO");
+
+        } else if (prestamoRepository.existsOverlappingDatesByGameOfNewPrestamos(dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "GAME_ALREADY_PRESTADO");
+        }
+    }
 }

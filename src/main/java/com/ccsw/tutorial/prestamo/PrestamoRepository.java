@@ -20,11 +20,17 @@ public interface PrestamoRepository extends CrudRepository<Prestamo, Long>, JpaS
     @EntityGraph(attributePaths = { "game", "client" })
     Page<Prestamo> findAll(Specification<Prestamo> spec, Pageable pageable);
 
+    @Query("SELECT COUNT(p)>0 FROM Prestamo p WHERE p.id <> :id AND p.client.id = :clientId AND (p.dateIni <= :dateFin AND p.dateFin >= :dateIni)")
+    boolean existsOverlappingDatesByClient(Long id, @Param("clientId") Long clientId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
+
+    @Query("SELECT COUNT(p)>0 FROM Prestamo p WHERE p.id <> :id AND p.game.id = :gameId AND (p.dateIni <= :dateFin AND p.dateFin >= :dateIni)")
+    boolean existsOverlappingDatesByGame(Long id, @Param("gameId") Long gameId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
+
     @Query("SELECT COUNT(p)>0 FROM Prestamo p WHERE p.client.id = :clientId AND (p.dateIni <= :dateFin AND p.dateFin >= :dateIni)")
-    boolean existsOverlappingDatesByClient(@Param("clientId") Long clientId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
+    boolean existsOverlappingDatesByClientOfNewPrestamos(@Param("clientId") Long clientId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
 
     @Query("SELECT COUNT(p)>0 FROM Prestamo p WHERE p.game.id = :gameId AND (p.dateIni <= :dateFin AND p.dateFin >= :dateIni)")
-    boolean existsOverlappingDatesByGame(@Param("gameId") Long gameId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
+    boolean existsOverlappingDatesByGameOfNewPrestamos(@Param("gameId") Long gameId, @Param("dateIni") LocalDate dateIni, @Param("dateFin") LocalDate dateFin);
 
     boolean existsByClientId(Long clientId);
 }

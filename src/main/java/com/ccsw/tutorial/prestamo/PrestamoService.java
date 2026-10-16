@@ -24,5 +24,7 @@ public interface PrestamoService {
 
     void validateDates(PrestamoDto dto);
 
-    void validatePrestamo(PrestamoDto dto);
+    void validateModifyPrestamo(PrestamoDto dto);
+
+    void validateNewPrestamo(PrestamoDto dto);
 }
