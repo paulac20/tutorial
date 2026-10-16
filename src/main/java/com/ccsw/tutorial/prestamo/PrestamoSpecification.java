@@ -7,6 +7,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 
+/**
+ * @author Paula Crespo
+ */
 public class PrestamoSpecification implements Specification<Prestamo> {
 
     private static final long serialVersionUID = 1L;
