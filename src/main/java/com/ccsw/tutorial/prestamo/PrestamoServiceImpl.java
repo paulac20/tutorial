@@ -89,11 +89,12 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Override
     public void validateDates(PrestamoDto dto) {
+        int maxDaysPrestamo = 14;
         if (dto.getDateFin().isBefore(dto.getDateIni())) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "END_DATE_HAS_TO_BE_AFTER");
         }
-        if (ChronoUnit.DAYS.between(dto.getDateIni(), dto.getDateFin()) > 14) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "ONLY_14_DAYS");
+        if (ChronoUnit.DAYS.between(dto.getDateIni(), dto.getDateFin()) > maxDaysPrestamo) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "ONLY_FOURTEEN_DAYS");
         }
     }
 
@@ -102,7 +103,8 @@ public class PrestamoServiceImpl implements PrestamoService {
         if (prestamoRepository.existsOverlappingDatesByClient(dto.getId(), dto.getClient().getId(), dto.getDateIni(), dto.getDateFin())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "CLIENT_ALREADY_HAS_PRESTAMO");
 
-        } else if (prestamoRepository.existsOverlappingDatesByGame(dto.getId(), dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
+        }
+        if (prestamoRepository.existsOverlappingDatesByGame(dto.getId(), dto.getGame().getId(), dto.getDateIni(), dto.getDateFin())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "GAME_ALREADY_PRESTADO");
         }
     }

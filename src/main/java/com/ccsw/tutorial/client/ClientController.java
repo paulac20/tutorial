@@ -60,5 +60,4 @@ public class ClientController {
     public void delete(@PathVariable("id") Long id) throws Exception {
         this.clientService.delete(id);
     }
-
 }
