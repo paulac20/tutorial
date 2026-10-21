@@ -1,17 +1,38 @@
 package com.ccsw.tutorial.session.model;
 
+import jakarta.persistence.*;
+
 /**
  * @author Paula Crespo
  */
-public class SessionDto {
+@Entity
+@Table(name = "usser")
+public class Usser {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "surname", nullable = false)
     private String surname;
+
+    @Column(name = "age", nullable = false)
     private String age;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "phone", nullable = true)
     private String phone;
+
+    @Column(name = "usser", nullable = false, unique = true)
     private String usser;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
     public Long getId() {
