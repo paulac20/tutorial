@@ -1,5 +1,7 @@
 package com.ccsw.tutorial.session.model;
 
+import jakarta.validation.constraints.Email;
+
 /**
  * @author Paula Crespo
  */
@@ -9,6 +11,7 @@ public class RegisterDto {
     private String name;
     private String surname;
     private String age;
+    @Email
     private String email;
     private String phone;
     private String usser;

@@ -1,6 +1,7 @@
 package com.ccsw.tutorial.session.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 /**
  * @author Paula Crespo
@@ -23,6 +24,7 @@ public class Usser {
     @Column(name = "age", nullable = false)
     private String age;
 
+    @Email
     @Column(name = "email", nullable = false)
     private String email;
 

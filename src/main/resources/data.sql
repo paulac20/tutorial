@@ -62,4 +62,4 @@ INSERT INTO prestamo(game_id, client_id, date_ini, date_fin)
 VALUES (7, 6, '2026-10-07', '2026-10-16');
 
 INSERT INTO usser(name, surname, age, email, phone, usser, password)
-VALUES ('Administrador', 'Admin', '22', 'admin@ludotecatan.com', '123456789', 'admin', 'admin')                                                                          )
+VALUES ('Administrador', 'Admin', '22', 'admin@ludotecatan.com', '123456789', 'admin', 'admin');
