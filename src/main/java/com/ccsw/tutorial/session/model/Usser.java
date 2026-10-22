@@ -37,6 +37,9 @@ public class Usser {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "role", nullable = false)
+    private String role;
+
     public Long getId() {
         return this.id;
     }
@@ -99,5 +102,13 @@ public class Usser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

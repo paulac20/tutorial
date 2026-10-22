@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class CategoryController {
      */
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Category")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody CategoryDto dto) {
         this.categoryService.save(id, dto);
     }
@@ -73,6 +75,7 @@ public class CategoryController {
      * @throws Exception cuando no existe la categoría
      */
     @Operation(summary = "Delete", description = "Method that deletes a Category")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) throws Exception {
         //Se elimina la categoría con el id del mapa que tenemos de categorías

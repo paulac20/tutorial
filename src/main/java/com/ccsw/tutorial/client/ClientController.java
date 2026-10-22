@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class ClientController {
      * @return {@link List} de {@link ClientDto}
      */
     @Operation(summary = "Find", description = "Method that return a list of clients")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<ClientDto> findAll() {
         List<Client> clients = this.clientService.findAll();
@@ -44,6 +46,7 @@ public class ClientController {
      * @param dto datos de la entidad
      */
     @Operation(summary = "Save of Update", description = "Method that saves or updates a Client")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
     public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody ClientDto dto) {
         this.clientService.save(id, dto);
@@ -56,6 +59,7 @@ public class ClientController {
      * @throws Exception cuando no existe el cliente
      */
     @Operation(summary = "Delete", description = "Method that deletes a Client")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) throws Exception {
         this.clientService.delete(id);
