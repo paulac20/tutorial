@@ -4,6 +4,9 @@ import com.ccsw.tutorial.session.model.LoginDto;
 import com.ccsw.tutorial.session.model.RegisterDto;
 import com.ccsw.tutorial.session.model.Usser;
 
+/**
+ * @author Paula Crespo
+ */
 public interface SessionService {
 
     void login(LoginDto dto);

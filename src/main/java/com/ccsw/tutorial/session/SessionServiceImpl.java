@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * @author Paula Crespo
+ */
 @Service
 @Transactional
 public class SessionServiceImpl implements SessionService {
@@ -29,6 +32,7 @@ public class SessionServiceImpl implements SessionService {
         Usser usser = new Usser();
         validateUsser(dto);
         BeanUtils.copyProperties(dto, usser, "id");
+        usser.setRole("ROLE_USER");
         this.sessionRepository.save(usser);
     }
 
