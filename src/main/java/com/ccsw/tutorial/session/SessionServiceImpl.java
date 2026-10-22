@@ -32,7 +32,7 @@ public class SessionServiceImpl implements SessionService {
         Usser usser = new Usser();
         validateUsser(dto);
         BeanUtils.copyProperties(dto, usser, "id");
-        usser.setRole("ROLE_USER");
+        usser.setRole("ROLE_ADMIN");
         this.sessionRepository.save(usser);
     }
 
