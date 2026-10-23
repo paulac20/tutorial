@@ -7,6 +7,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Service
 @Transactional
-public class SessionServiceImpl implements SessionService {
+public class SessionServiceImpl implements SessionService, UserDetailsService {
 
     @Autowired
     SessionRepository sessionRepository;
@@ -51,5 +55,16 @@ public class SessionServiceImpl implements SessionService {
         if (!usser.getPassword().equals(dto.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "INCORRECT_LOGIN");
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usser usser = sessionRepository.findByUsser(username);
+
+        if (usser == null) {
+            throw new UsernameNotFoundException("Usuario o contraseña incorrecto.");
+        }
+
+        return User.builder().username(usser.getUsser()).password(usser.getPassword()).roles(usser.getRole()).build();
     }
 }

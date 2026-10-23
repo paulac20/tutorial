@@ -64,4 +64,4 @@ VALUES (7, 6, '2026-10-07', '2026-10-16');
 INSERT INTO usser(name, surname, age, email, phone, usser, password, role)
 VALUES ('Administrador', 'Admin', '22', 'admin@ludotecatan.com', '123456789', 'admin', 'admin', 'ROLE_ADMIN');
 INSERT INTO usser(name, surname, age, email, phone, usser, password, role)
-VALUES ('Pepe', 'Juan', '40', 'pepe12@gmail.com', '678928301', 'pepe2', 'hola12', 'ROLE_USER');
+VALUES ('Pepe', 'Juan', '40', 'pepe12@gmail.com', '678928301', 'pepe2', 'hola12', 'ROLE_ADMIN');
